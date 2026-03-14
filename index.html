@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh Daws</title>
+<meta name="description" content="Josh Daws — Christ and culture. Writer, speaker, builder.">
+<meta property="og:title" content="Josh Daws">
+<meta property="og:description" content="Christ and culture. Writer, speaker, builder.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://joshdaws.com">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✝</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-deep: #0d0d0d;
+  --bg-surface: #1a1a1a;
+  --bg-card: #222222;
+  --bg-card-hover: #2a2a2a;
+  --text-primary: #f0ece4;
+  --text-secondary: #a8a49c;
+  --gold: #c8a86e;
+  --gold-dim: rgba(200, 168, 110, 0.15);
+  --gold-glow: rgba(200, 168, 110, 0.08);
+  --stripe-color: rgba(200, 168, 110, 0.03);
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Diagonal stripe texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    var(--stripe-color) 40px,
+    var(--stripe-color) 41px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle top gradient wash */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  background: radial-gradient(ellipse at 50% 0%, var(--gold-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  padding: 3.5rem 1.5rem 4rem;
+}
+
+/* ——— Header ——— */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.name {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.tagline {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.divider {
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+  margin: 1.5rem auto 0;
+  border-radius: 1px;
+}
+
+/* ——— Link Grid ——— */
+.links-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-left: 0.25rem;
+  margin-bottom: -0.75rem;
+}
+
+.link-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.link-grid--primary {
+  grid-template-columns: 1fr 1fr;
+}
+
+.link-grid--secondary {
+  grid-template-columns: 1fr 1fr;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.25rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--gold-dim) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.link-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(200, 168, 110, 0.15);
+  transform: translateY(-2px);
+}
+
+.link-card:hover::before {
+  opacity: 1;
+}
+
+.link-card:active {
+  transform: translateY(0);
+}
+
+.card-icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+}
+
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-title {
+  position: relative;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.card-subtitle {
+  position: relative;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* Primary cards are a bit taller */
+.link-grid--primary .link-card {
+  padding: 1.5rem 1.125rem;
+}
+
+/* Secondary cards are compact */
+.link-grid--secondary .link-card {
+  padding: 1rem;
+  gap: 0.25rem;
+}
+
+.link-grid--secondary .card-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.link-grid--secondary .card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.link-grid--secondary .card-title {
+  font-size: 0.8rem;
+}
+
+.link-grid--secondary .card-subtitle {
+  font-size: 0.65rem;
+}
+
+/* Arrow indicator */
+.card-arrow {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translate(-4px, 0);
+  transition: all 0.2s ease;
+}
+
+.card-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+.link-card:hover .card-arrow {
+  opacity: 0.6;
+  transform: translate(0, 0);
+}
+
+/* ——— Footer ——— */
+.footer {
+  text-align: center;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-text {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* ——— Responsive ——— */
+@media (max-width: 480px) {
+  .container {
+    padding: 2.5rem 1.25rem 3rem;
+  }
+
+  .name {
+    font-size: 2.25rem;
+  }
+
+  .link-grid--primary,
+  .link-grid--secondary {
+    grid-template-columns: 1fr;
+  }
+
+  .link-grid--primary .link-card,
+  .link-grid--secondary .link-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.125rem;
+  }
+
+  .link-grid--primary .card-icon,
+  .link-grid--secondary .card-icon {
+    flex-shrink: 0;
+  }
+
+  .card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .card-arrow {
+    top: 50%;
+    transform: translate(-4px, -50%);
+  }
+
+  .link-card:hover .card-arrow {
+    transform: translate(0, -50%);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+  .name {
+    font-size: 2.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <h1 class="name">Josh Daws</h1>
+    <p class="tagline">Christ and culture</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="links-section">
+
+    <div class="link-grid link-grid--primary">
+
+      <a href="https://youtube.com/@JoshDawsTV" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">YouTube</span>
+          <span class="card-subtitle">@JoshDawsTV</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://x.com/JoshDaws" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">X / Twitter</span>
+          <span class="card-subtitle">@JoshDaws</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://joshdaws.substack.com" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">Substack</span>
+          <span class="card-subtitle">Sphere of Influence</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://taking-dominion-web.vercel.app/" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">Taking Dominion</span>
+          <span class="card-subtitle">AI workshop for the church</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+    </div>
+
+    <span class="section-label">More projects</span>
+
+    <div class="link-grid link-grid--secondary">
+
+      <a href="https://youtube.com/@dawsbrothers" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">Daws Brothers</span>
+          <span class="card-subtitle">Short films</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://homeschoolhappy.com" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">Homeschool Happy</span>
+          <span class="card-subtitle">Homeschool resources</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://theyumbook.com" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">The Yum Book</span>
+          <span class="card-subtitle">Family recipes</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+      <a href="https://scorched-earth.vercel.app/" class="link-card" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-title">Scorched Earth</span>
+          <span class="card-subtitle">Strategy game</span>
+        </div>
+        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p class="footer-text">Soli Deo Gloria</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
