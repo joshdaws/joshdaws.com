@@ -12,7 +12,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✝</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after {
   margin: 0;
@@ -98,20 +98,22 @@ body::after {
 }
 
 .name {
-  font-size: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .tagline {
+  font-family: 'Open Sans', sans-serif;
   margin-top: 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--text-secondary);
 }
 
 .divider {
@@ -295,7 +297,7 @@ body::after {
   }
 
   .name {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
   }
 
   .link-grid--primary,
@@ -334,7 +336,7 @@ body::after {
 
 @media (min-width: 481px) and (max-width: 640px) {
   .name {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
   }
 }
 </style>
@@ -345,7 +347,7 @@ body::after {
 
   <header class="header">
     <h1 class="name">Josh Daws</h1>
-    <p class="tagline">Christ and culture</p>
+    <p class="tagline">Christ + Culture</p>
     <div class="divider"></div>
   </header>
 
