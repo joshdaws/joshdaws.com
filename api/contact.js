@@ -45,12 +45,12 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error('Resend error:', response.status, body);
-      return res.status(500).json({ error: 'Failed to send', detail: body });
+      return res.status(500).json({ error: 'Failed to send' });
     }
 
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Contact form error:', err.message);
-    return res.status(500).json({ error: 'Server error', detail: err.message });
+    return res.status(500).json({ error: 'Server error' });
   }
 }
