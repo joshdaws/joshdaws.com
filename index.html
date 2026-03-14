@@ -31,12 +31,15 @@
   --gold-dim: rgba(200, 168, 110, 0.15);
   --gold-glow: rgba(200, 168, 110, 0.08);
   --stripe-color: rgba(200, 168, 110, 0.03);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus-ring: 0 0 0 2px var(--bg-deep), 0 0 0 4px var(--gold);
 }
 
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -91,10 +94,43 @@ body::after {
   padding: 3.5rem 1.5rem 4rem;
 }
 
+/* ——— Animations ——— */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ——— Header ——— */
 .header {
   text-align: center;
   margin-bottom: 3rem;
+  animation: fadeUp 0.6s var(--ease-out) both;
 }
 
 .name {
@@ -122,6 +158,7 @@ body::after {
   background: var(--gold);
   margin: 1.5rem auto 0;
   border-radius: 1px;
+  animation: drawIn 0.8s var(--ease-out) 0.3s both;
 }
 
 /* ——— Link Grid ——— */
@@ -164,10 +201,25 @@ body::after {
   border-radius: 12px;
   text-decoration: none;
   color: var(--text-primary);
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
   position: relative;
   overflow: hidden;
+  animation: fadeUp 0.5s var(--ease-out) both;
 }
+
+/* Stagger card entrances */
+.link-grid--primary .link-card:nth-child(1) { animation-delay: 0.15s; }
+.link-grid--primary .link-card:nth-child(2) { animation-delay: 0.2s; }
+.link-grid--primary .link-card:nth-child(3) { animation-delay: 0.25s; }
+.link-grid--primary .link-card:nth-child(4) { animation-delay: 0.3s; }
+.link-grid--secondary .link-card:nth-child(1) { animation-delay: 0.35s; }
+.link-grid--secondary .link-card:nth-child(2) { animation-delay: 0.4s; }
+.link-grid--secondary .link-card:nth-child(3) { animation-delay: 0.45s; }
+.link-grid--secondary .link-card:nth-child(4) { animation-delay: 0.5s; }
 
 .link-card::before {
   content: '';
@@ -178,13 +230,14 @@ body::after {
   height: 100%;
   background: linear-gradient(135deg, var(--gold-dim) 0%, transparent 60%);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s var(--ease-out);
 }
 
 .link-card:hover {
   background: var(--bg-card-hover);
   border-color: rgba(200, 168, 110, 0.15);
   transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .link-card:hover::before {
@@ -193,6 +246,13 @@ body::after {
 
 .link-card:active {
   transform: translateY(0);
+  transition-duration: 0.1s;
+}
+
+/* Focus-visible for keyboard navigation */
+.link-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .card-icon {
@@ -277,7 +337,7 @@ body::after {
   position: static;
   transform: none;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s var(--ease-out);
 }
 
 .link-grid--secondary .link-card:hover .card-arrow {
@@ -293,7 +353,9 @@ body::after {
   color: var(--text-secondary);
   opacity: 0;
   transform: translate(-4px, 0);
-  transition: all 0.2s ease;
+  transition:
+    opacity 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
 }
 
 .card-arrow svg {
@@ -311,6 +373,7 @@ body::after {
   margin-top: 3rem;
   padding-top: 2.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: fadeUp 0.5s var(--ease-out) 0.55s both;
 }
 
 .contact-heading {
@@ -365,7 +428,7 @@ body::after {
   border-radius: 8px;
   padding: 0.75rem 0.875rem;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
 }
 
 .form-field input::placeholder,
@@ -377,6 +440,13 @@ body::after {
 .form-field select:focus,
 .form-field textarea:focus {
   border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(200, 168, 110, 0.1);
+}
+
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible {
+  outline: none;
 }
 
 .form-field select {
@@ -408,23 +478,34 @@ body::after {
   border-radius: 8px;
   padding: 0.875rem 1.5rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.25s var(--ease-out),
+    transform 0.15s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
   margin-top: 0.25rem;
 }
 
 .form-submit:hover {
   background: #d4b87a;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(200, 168, 110, 0.2);
 }
 
 .form-submit:active {
   transform: translateY(0);
+  transition-duration: 0.05s;
+}
+
+.form-submit:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .form-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .form-status {
@@ -439,18 +520,14 @@ body::after {
   display: block;
   color: #7ec88e;
   background: rgba(126, 200, 142, 0.1);
+  animation: slideIn 0.3s var(--ease-out);
 }
 
 .form-status.error {
   display: block;
   color: #c87e7e;
   background: rgba(200, 126, 126, 0.1);
-}
-
-@media (max-width: 480px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+  animation: slideIn 0.3s var(--ease-out);
 }
 
 /* ——— Footer ——— */
@@ -459,6 +536,7 @@ body::after {
   margin-top: 3.5rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: fadeUp 0.5s var(--ease-out) 0.6s both;
 }
 
 .footer-text {
@@ -466,6 +544,7 @@ body::after {
   color: var(--text-secondary);
   font-weight: 400;
   letter-spacing: 0.05em;
+  font-style: italic;
 }
 
 /* ——— Responsive ——— */
@@ -478,43 +557,61 @@ body::after {
     font-size: 2.5rem;
   }
 
-  .link-grid--primary,
-  .link-grid--secondary {
+  .link-grid--primary {
     grid-template-columns: 1fr;
   }
 
-  .link-grid--primary .link-card,
-  .link-grid--secondary .link-card {
+  .link-grid--primary .link-card {
     flex-direction: row;
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 1.125rem;
   }
 
-  .link-grid--primary .card-icon,
-  .link-grid--secondary .card-icon {
+  .link-grid--primary .card-icon {
     flex-shrink: 0;
   }
 
-  .card-text {
+  .link-grid--primary .card-text {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
   }
 
-  .card-arrow {
+  .link-grid--primary .card-arrow {
     top: 50%;
     transform: translate(-4px, -50%);
   }
 
-  .link-card:hover .card-arrow {
+  .link-grid--primary .link-card:hover .card-arrow {
     transform: translate(0, -50%);
+  }
+
+  .link-grid--secondary {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 481px) and (max-width: 640px) {
   .name {
     font-size: 2.75rem;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }
 </style>
@@ -526,55 +623,55 @@ body::after {
   <header class="header">
     <h1 class="name">Josh Daws</h1>
     <p class="tagline">Christ + Culture</p>
-    <div class="divider"></div>
+    <div class="divider" aria-hidden="true"></div>
   </header>
 
-  <div class="links-section">
+  <nav class="links-section" aria-label="Links">
 
     <div class="link-grid link-grid--primary">
 
       <a href="https://youtube.com/@JoshDawsTV" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">YouTube</span>
           <span class="card-subtitle">@JoshDawsTV</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://x.com/JoshDaws" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">X / Twitter</span>
           <span class="card-subtitle">@JoshDaws</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://joshdaws.substack.com" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">Substack</span>
           <span class="card-subtitle">Josh Daws</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://taking-dominion-web.vercel.app/" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">Taking Dominion with AI</span>
           <span class="card-subtitle">Workshops</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
     </div>
@@ -584,70 +681,70 @@ body::after {
     <div class="link-grid link-grid--secondary">
 
       <a href="https://homeschoolhappy.com" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">Homeschool Happy</span>
           <span class="card-subtitle">Homeschool compliance software</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://theyumbook.com" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">The Yum Book</span>
           <span class="card-subtitle">Your family's recipe book, built together</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://scorched-earth.vercel.app/" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">Scorched Earth</span>
           <span class="card-subtitle">An AI-built browser game</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
       <a href="https://youtube.com/@dawsbrothers" class="link-card" target="_blank" rel="noopener">
-        <div class="card-icon">
+        <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><path d="M7 2v20"/><path d="M17 2v20"/><path d="M2 12h20"/><path d="M2 7h5"/><path d="M2 17h5"/><path d="M17 17h5"/><path d="M17 7h5"/></svg>
         </div>
         <div class="card-text">
           <span class="card-title">Daws Brothers Films</span>
           <span class="card-subtitle">Movies made with my brother, including our feature Dangerous Calling</span>
         </div>
-        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+        <div class="card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
       </a>
 
     </div>
 
-  </div>
+  </nav>
 
-  <section class="contact-section">
+  <section class="contact-section" aria-label="Contact">
     <h2 class="contact-heading">Get in touch</h2>
     <p class="contact-subheading">Consulting, speaking engagements, or just want to connect.</p>
     <form class="contact-form" id="contactForm">
       <div class="form-row">
         <div class="form-field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your name" required>
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" name="name" placeholder="Your name" required autocomplete="name">
         </div>
         <div class="form-field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          <label for="contactEmail">Email</label>
+          <input type="email" id="contactEmail" name="email" placeholder="you@example.com" required autocomplete="email">
         </div>
       </div>
       <div class="form-field">
-        <label for="type">Inquiry type</label>
-        <select id="type" name="type" required>
+        <label for="contactType">Inquiry type</label>
+        <select id="contactType" name="type" required>
           <option value="" disabled selected>Select one</option>
           <option value="AI Consulting">AI Consulting</option>
           <option value="Speaking Engagement">Speaking Engagement</option>
@@ -656,11 +753,11 @@ body::after {
         </select>
       </div>
       <div class="form-field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Tell me about your project or event" required></textarea>
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" name="message" placeholder="Tell me about your project or event" required></textarea>
       </div>
       <button type="submit" class="form-submit">Send message</button>
-      <div class="form-status" id="formStatus"></div>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
     </form>
   </section>
 
@@ -676,7 +773,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
   const btn = e.target.querySelector('.form-submit');
   const status = document.getElementById('formStatus');
   btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.textContent = 'Sending\u2026';
   status.className = 'form-status';
   status.style.display = 'none';
 
@@ -685,10 +782,10 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        type: document.getElementById('type').value,
-        message: document.getElementById('message').value,
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        type: document.getElementById('contactType').value,
+        message: document.getElementById('contactMessage').value,
       }),
     });
     if (!res.ok) throw new Error('Failed to send');
@@ -698,7 +795,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.target.reset();
   } catch {
     status.className = 'form-status error';
-    status.textContent = 'Something went wrong. Try emailing directly.';
+    status.textContent = 'Something went wrong. Try again in a moment.';
     status.style.display = 'block';
   } finally {
     btn.disabled = false;
